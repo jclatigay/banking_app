@@ -1,0 +1,52 @@
+.account-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.account-card:hover {
+  transform: translateY(-3px);
+}
+
+.account-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.account-type {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--primary-color);
+}
+
+.account-number {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.balance {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.balance-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.balance-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.account-card-footer {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+} 

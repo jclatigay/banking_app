@@ -18,6 +18,8 @@
   padding: 1.5rem;
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  cursor: pointer;
 }
 
 .balance-header {
@@ -53,6 +55,30 @@
 .balance-period {
   font-size: 0.9rem;
   color: #6c757d;
+}
+
+.balance-details {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
+
+.account-number {
+  font-family: monospace;
+}
+
+.balance-card .stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
+}
+
+.balance-card:hover {
+  transform: translateY(-3px);
 }
 
 /* Quick Actions */
@@ -174,4 +200,73 @@
   .transaction-item {
     padding: 0.75rem 1rem;
   }
+}
+
+/* Add these to your existing dashboard styles */
+
+.no-accounts-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.no-accounts-card i {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.no-accounts-card h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.no-accounts-card p {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.no-accounts-card .btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: 0.5rem;
+  background-color: var(--primary-color);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.no-accounts-card .btn:hover {
+  background-color: #0047b3;
+}
+
+.no-accounts-card .btn i {
+  font-size: 1rem;
+  margin: 0;
+  color: white;
+}
+
+.balance-card {
+  position: relative;
+  cursor: pointer;
+}
+
+.balance-card .stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
+}
+
+.balance-card:hover {
+  transform: translateY(-3px);
 } 

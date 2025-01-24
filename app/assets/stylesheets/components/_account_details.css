@@ -1,0 +1,159 @@
+.account-details-page {
+  padding: 2rem 0;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 70px);
+}
+
+.account-overview-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.account-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+}
+
+.account-title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #333;
+}
+
+.account-number {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+  font-family: monospace;
+}
+
+.balance-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.balance-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+/* Quick Actions */
+.quick-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: #333;
+  transition: transform 0.2s ease;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-3px);
+  color: var(--primary-color);
+}
+
+.quick-action-card i {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Transactions Section */
+.transactions-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.transaction-list {
+  margin-top: 1rem;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.transaction-icon.incoming {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.transaction-icon.outgoing {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.transaction-details {
+  flex-grow: 1;
+}
+
+.transaction-details h4 {
+  font-size: 1rem;
+  margin: 0;
+  color: #333;
+}
+
+.transaction-date {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.transaction-amount {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.transaction-amount.positive {
+  color: #28a745;
+}
+
+.transaction-amount.negative {
+  color: #dc3545;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .account-overview-card {
+    padding: 1.5rem;
+  }
+  
+  .balance-amount {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .account-title {
+    font-size: 1.25rem;
+  }
+} 

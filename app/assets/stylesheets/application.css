@@ -7,6 +7,7 @@
  *= require components/_navbar
  *= require components/_buttons
  *= require components/_cards
+ *= require components/_account_details
  *= require pages/index
  *= require pages/dashboard
  *= require pages/auth
