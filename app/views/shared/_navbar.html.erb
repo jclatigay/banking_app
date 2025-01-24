@@ -1,0 +1,85 @@
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <%= link_to root_path, class: 'navbar-brand' do %>
+          <i class="fas fa-landmark me-2"></i>JIL Bank
+        <% end %>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav me-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to dashboard_path, class: 'nav-link' do %>
+                  <i class="fas fa-chart-line me-1"></i>Dashboard
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to '#', class: 'nav-link' do %>
+                  <i class="fas fa-wallet me-1"></i>My Accounts
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to '#', class: 'nav-link' do %>
+                  <i class="fas fa-exchange-alt me-1"></i>Transfer Money
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to '#', class: 'nav-link' do %>
+                  <i class="fas fa-history me-1"></i>Transactions
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+
+          <ul class="navbar-nav ms-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                  <i class="fas fa-user-circle me-1"></i><%= current_user.first_name %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <%= link_to edit_user_registration_path, class: 'dropdown-item' do %>
+                      <i class="fas fa-user-edit me-2"></i>My Profile
+                    <% end %>
+                  </li>
+                  <li>
+                    <%= link_to '#', class: 'dropdown-item' do %>
+                      <i class="fas fa-cog me-2"></i>Account Settings
+                    <% end %>
+                  </li>
+                  <li>
+                    <%= link_to '#', class: 'dropdown-item' do %>
+                      <i class="fas fa-shield-alt me-2"></i>Security Settings
+                    <% end %>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <%= button_to destroy_user_session_path, 
+                        method: :delete, 
+                        class: 'dropdown-item text-danger',
+                        form: { data: { turbo: false } } do %>
+                      <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    <% end %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to new_user_session_path, class: 'nav-link' do %>
+                  <i class="fas fa-sign-in-alt me-1"></i>Login
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_user_registration_path, class: 'nav-link btn btn-primary text-white ms-2' do %>
+                  <i class="fas fa-user-plus me-1"></i>Sign Up
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
