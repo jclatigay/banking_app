@@ -30,7 +30,19 @@
     <div class="quick-actions-section mb-4">
       <div class="row g-3">
         <div class="col-6 col-md-3">
-          <%= link_to '#', class: 'quick-action-card' do %>
+          <%= link_to new_account_transaction_path(@account, type: 'deposit'), class: 'quick-action-card' do %>
+            <i class="fas fa-plus"></i>
+            <span>Deposit</span>
+          <% end %>
+        </div>
+        <div class="col-6 col-md-3">
+          <%= link_to new_account_transaction_path(@account, type: 'withdrawal'), class: 'quick-action-card' do %>
+            <i class="fas fa-minus"></i>
+            <span>Withdraw</span>
+          <% end %>
+        </div>
+        <div class="col-6 col-md-3">
+          <%= link_to new_account_transaction_path(@account, type: 'transfer'), class: 'quick-action-card' do %>
             <i class="fas fa-exchange-alt"></i>
             <span>Transfer</span>
           <% end %>
@@ -80,18 +92,21 @@
 
       <!-- Transaction List -->
       <div class="transaction-list">
-        <div class="transaction-item">
-          <div class="transaction-icon incoming">
-            <i class="fas fa-plus"></i>
+        <% @account.transactions.order(created_at: :desc).each do |transaction| %>
+          <div class="transaction-item">
+            <div class="transaction-icon <%= transaction.transaction_type == 'deposit' ? 'incoming' : 'outgoing' %>">
+              <i class="fas <%= transaction_icon(transaction) %>"></i>
+            </div>
+            <div class="transaction-details">
+              <h4><%= transaction.description %></h4>
+              <span class="transaction-date"><%= transaction.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+            </div>
+            <div class="transaction-amount <%= transaction.transaction_type == 'deposit' ? 'positive' : 'negative' %>">
+              <%= transaction.transaction_type == 'deposit' ? '+' : '-' %>
+              $<%= number_with_precision(transaction.amount, precision: 2) %>
+            </div>
           </div>
-          <div class="transaction-details">
-            <h4>Account Opening</h4>
-            <span class="transaction-date"><%= @account.created_at.strftime("%B %d, %Y") %></span>
-          </div>
-          <div class="transaction-amount positive">
-            $<%= number_with_precision(@account.balance, precision: 2) %>
-          </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>

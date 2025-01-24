@@ -16,16 +16,42 @@
                   <i class="fas fa-chart-line me-1"></i>Dashboard
                 <% end %>
               </li>
-              <li class="nav-item">
-                <%= link_to '#', class: 'nav-link' do %>
+              <li class="nav-item dropdown">
+                <%= link_to '#', class: 'nav-link dropdown-toggle', 
+                    id: 'accountsDropdown', 
+                    role: 'button',
+                    data: { bs_toggle: 'dropdown' } do %>
                   <i class="fas fa-wallet me-1"></i>My Accounts
                 <% end %>
+                <ul class="dropdown-menu">
+                  <% if current_user.accounts.any? %>
+                    <% current_user.accounts.each do |account| %>
+                      <li>
+                        <%= link_to account_path(account), class: 'dropdown-item' do %>
+                          <i class="fas <%= account.account_type == 'savings' ? 'fa-piggy-bank' : 'fa-wallet' %> me-2"></i>
+                          <%= account.account_type.titleize %>
+                          <span class="text-muted ms-2">
+                            $<%= number_with_precision(account.balance, precision: 2) %>
+                          </span>
+                        <% end %>
+                      </li>
+                    <% end %>
+                    <li><hr class="dropdown-divider"></li>
+                  <% end %>
+                  <li>
+                    <%= link_to new_account_path, class: 'dropdown-item text-primary' do %>
+                      <i class="fas fa-plus me-2"></i>Open New Account
+                    <% end %>
+                  </li>
+                </ul>
               </li>
-              <li class="nav-item">
-                <%= link_to '#', class: 'nav-link' do %>
-                  <i class="fas fa-exchange-alt me-1"></i>Transfer Money
-                <% end %>
-              </li>
+              <% if current_user.accounts.count >= 2 %>
+                <li class="nav-item">
+                  <%= link_to new_account_transaction_path(current_user.accounts.first, type: 'transfer'), class: 'nav-link' do %>
+                    <i class="fas fa-exchange-alt me-1"></i>Transfer Money
+                  <% end %>
+                </li>
+              <% end %>
               <li class="nav-item">
                 <%= link_to '#', class: 'nav-link' do %>
                   <i class="fas fa-history me-1"></i>Transactions

@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">
+            <%= @transaction_type.titleize %> Money
+          </h2>
+
+          <div class="text-center mb-4">
+            <p class="text-muted">Available Balance</p>
+            <h3 class="text-primary">$<%= number_with_precision(@account.balance, precision: 2) %></h3>
+          </div>
+
+          <%= form_with(model: [@account, @transaction], local: true, class: "transaction-form") do |f| %>
+            <% if @transaction.errors.any? %>
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  <% @transaction.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <%= f.hidden_field :transaction_type, value: @transaction_type %>
+
+            <% if @transaction_type == 'transfer' %>
+              <div class="mb-3">
+                <%= f.label :destination_account_id, "Transfer to", class: "form-label" %>
+                <%= f.select :destination_account_id, 
+                    @account.other_accounts.map { |a| ["#{a.account_type.titleize} (#{a.account_number})", a.id] },
+                    {}, class: "form-select" %>
+              </div>
+            <% end %>
+
+            <div class="mb-3">
+              <%= f.label :amount, class: "form-label" %>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <%= f.number_field :amount, class: "form-control", step: "0.01", min: "0.01" %>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :description, class: "form-label" %>
+              <%= f.text_field :description, class: "form-control",
+                  placeholder: "Enter description" %>
+            </div>
+
+            <div class="d-grid gap-2">
+              <%= f.submit "Confirm #{@transaction_type.titleize}", class: "btn btn-primary" %>
+              <%= link_to "Cancel", account_path(@account), class: "btn btn-outline-secondary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

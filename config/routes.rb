@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   # Dashboard route
   get "dashboard", to: "pages#dashboard", as: :dashboard
 
-  resources :accounts
+  resources :accounts do
+    resources :transactions, only: [ :new, :create ]
+  end
 
   authenticated :user do
     root "pages#dashboard", as: :authenticated_root

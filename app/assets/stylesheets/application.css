@@ -8,6 +8,7 @@
  *= require components/_buttons
  *= require components/_cards
  *= require components/_account_details
+ *= require components/_transactions
  *= require pages/index
  *= require pages/dashboard
  *= require pages/auth

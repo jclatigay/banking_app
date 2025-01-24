@@ -48,12 +48,14 @@
             <span>New Account</span>
           <% end %>
         </div>
-        <div class="col-6 col-md-3">
-          <%= link_to '#', class: 'quick-action-card' do %>
-            <i class="fas fa-exchange-alt"></i>
-            <span>Transfer</span>
-          <% end %>
-        </div>
+        <% if current_user.accounts.count >= 2 %>
+          <div class="col-6 col-md-3">
+            <%= link_to new_account_transaction_path(current_user.accounts.first, type: 'transfer'), class: 'quick-action-card' do %>
+              <i class="fas fa-exchange-alt"></i>
+              <span>Transfer</span>
+            <% end %>
+          </div>
+        <% end %>
         <div class="col-6 col-md-3">
           <%= link_to '#', class: 'quick-action-card' do %>
             <i class="fas fa-paper-plane"></i>
@@ -73,7 +75,7 @@
   <!-- Recent Transactions Section -->
   <section class="recent-transactions">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header d-flex justify-content-between align-items-center mb-4">
         <h2>Recent Transactions</h2>
         <%= link_to '#', class: 'btn btn-outline-primary btn-sm' do %>
           <i class="fas fa-list me-1"></i>View All
@@ -82,18 +84,33 @@
 
       <div class="transaction-list">
         <% if current_user.accounts.any? %>
-          <div class="transaction-item">
-            <div class="transaction-icon incoming">
-              <i class="fas fa-arrow-down"></i>
+          <% recent_transactions = current_user.accounts.map(&:transactions).flatten.sort_by(&:created_at).reverse.first(5) %>
+          <% if recent_transactions.any? %>
+            <% recent_transactions.each do |transaction| %>
+              <div class="transaction-item">
+                <div class="transaction-icon <%= transaction.transaction_type == 'deposit' ? 'incoming' : 'outgoing' %>">
+                  <i class="fas <%= transaction_icon(transaction) %>"></i>
+                </div>
+                <div class="transaction-details">
+                  <h4>
+                    <%= transaction.description %>
+                    <small class="text-muted">
+                      (<%= transaction.account.account_type.titleize %> - <%= transaction.account.account_number %>)
+                    </small>
+                  </h4>
+                  <span class="transaction-date"><%= transaction.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+                </div>
+                <div class="transaction-amount <%= transaction.transaction_type == 'deposit' ? 'positive' : 'negative' %>">
+                  <%= transaction.transaction_type == 'deposit' ? '+' : '-' %>
+                  $<%= number_with_precision(transaction.amount, precision: 2) %>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="text-center py-4 text-muted">
+              <p>No recent transactions</p>
             </div>
-            <div class="transaction-details">
-              <h4>Account Created</h4>
-              <span class="transaction-date">Today</span>
-            </div>
-            <div class="transaction-amount positive">
-              System
-            </div>
-          </div>
+          <% end %>
         <% else %>
           <div class="text-center py-4 text-muted">
             <p>No transactions yet. Start by creating an account!</p>
