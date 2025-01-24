@@ -1,14 +1,130 @@
-<div class="container mt-5">
-  <h1>Dashboard</h1>
-  
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">Profile Information</h5>
-      <p><strong>Name:</strong> <%= current_user.first_name %> <%= current_user.last_name %></p>
-      <p><strong>Email:</strong> <%= current_user.email %></p>
-      <p><strong>Phone:</strong> <%= current_user.phone_number %></p>
-    </div>
-  </div>
+<div class="dashboard">
+  <!-- Account Overview Section -->
+  <section class="account-overview mb-4">
+    <div class="container">
+      <h1 class="dashboard-title">Welcome back, <%= current_user.first_name %>!</h1>
+      
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="balance-card">
+            <div class="balance-header">
+              <h3>Total Balance</h3>
+              <i class="fas fa-wallet"></i>
+            </div>
+            <div class="balance-amount">$10,000.00</div>
+            <div class="balance-change positive">
+              <i class="fas fa-arrow-up"></i> 2.5% from last month
+            </div>
+          </div>
+        </div>
 
-  <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>
+        <div class="col-md-6 col-lg-4">
+          <div class="balance-card">
+            <div class="balance-header">
+              <h3>Income</h3>
+              <i class="fas fa-arrow-down text-success"></i>
+            </div>
+            <div class="balance-amount">$3,500.00</div>
+            <div class="balance-period">This month</div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="balance-card">
+            <div class="balance-header">
+              <h3>Expenses</h3>
+              <i class="fas fa-arrow-up text-danger"></i>
+            </div>
+            <div class="balance-amount">$2,100.00</div>
+            <div class="balance-period">This month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Actions Section -->
+  <section class="quick-actions mb-4">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-6 col-md-3">
+          <%= link_to '#', class: 'quick-action-card' do %>
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+          <% end %>
+        </div>
+        <div class="col-6 col-md-3">
+          <%= link_to '#', class: 'quick-action-card' do %>
+            <i class="fas fa-paper-plane"></i>
+            <span>Pay Bills</span>
+          <% end %>
+        </div>
+        <div class="col-6 col-md-3">
+          <%= link_to '#', class: 'quick-action-card' do %>
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile Top-up</span>
+          <% end %>
+        </div>
+        <div class="col-6 col-md-3">
+          <%= link_to '#', class: 'quick-action-card' do %>
+            <i class="fas fa-qrcode"></i>
+            <span>QR Payment</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Transactions Section -->
+  <section class="recent-transactions">
+    <div class="container">
+      <div class="section-header">
+        <h2>Recent Transactions</h2>
+        <%= link_to '#', class: 'btn btn-outline-primary btn-sm' do %>
+          <i class="fas fa-list me-1"></i>View All
+        <% end %>
+      </div>
+
+      <div class="transaction-list">
+        <div class="transaction-item">
+          <div class="transaction-icon incoming">
+            <i class="fas fa-arrow-down"></i>
+          </div>
+          <div class="transaction-details">
+            <h4>Salary Deposit</h4>
+            <span class="transaction-date">Today, 10:00 AM</span>
+          </div>
+          <div class="transaction-amount positive">
+            +$3,500.00
+          </div>
+        </div>
+
+        <div class="transaction-item">
+          <div class="transaction-icon outgoing">
+            <i class="fas fa-arrow-up"></i>
+          </div>
+          <div class="transaction-details">
+            <h4>Netflix Subscription</h4>
+            <span class="transaction-date">Yesterday, 3:30 PM</span>
+          </div>
+          <div class="transaction-amount negative">
+            -$15.99
+          </div>
+        </div>
+
+        <div class="transaction-item">
+          <div class="transaction-icon outgoing">
+            <i class="fas fa-arrow-up"></i>
+          </div>
+          <div class="transaction-details">
+            <h4>Grocery Store</h4>
+            <span class="transaction-date">Yesterday, 1:24 PM</span>
+          </div>
+          <div class="transaction-amount negative">
+            -$84.50
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

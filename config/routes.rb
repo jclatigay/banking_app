@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  # Dashboard route
+  get "dashboard", to: "pages#dashboard", as: :dashboard
+
   authenticated :user do
     root "pages#dashboard", as: :authenticated_root
   end

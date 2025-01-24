@@ -7,6 +7,9 @@
  *= require components/_navbar
  *= require components/_buttons
  *= require components/_cards
+ *= require pages/index
+ *= require pages/dashboard
+ *= require pages/auth
  */
 
 /* Global styles */
