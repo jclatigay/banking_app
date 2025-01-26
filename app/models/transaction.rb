@@ -5,6 +5,7 @@ class Transaction < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :transaction_type, presence: true, inclusion: { in: %w[deposit withdrawal transfer] }
   validates :description, presence: true
+  validate :sufficient_funds, if: -> { [ "withdrawal", "transfer" ].include?(transaction_type) }
 
   TRANSACTION_TYPES = {
     deposit: "deposit",
@@ -18,29 +19,22 @@ class Transaction < ApplicationRecord
   private
 
   def update_account_balances
-    begin
-      case transaction_type
-      when "deposit"
-        account.update!(balance: account.balance + amount)
-      when "withdrawal"
-        if account.balance >= amount
-          account.update!(balance: account.balance - amount)
-        else
-          raise StandardError, "Insufficient funds for withdrawal"
-        end
-      when "transfer"
-        if account.balance >= amount
-          account.transaction do
-            account.update!(balance: account.balance - amount)
-            destination_account.update!(balance: destination_account.balance + amount)
-          end
-        else
-          raise StandardError, "Insufficient funds for transfer"
-        end
+    case transaction_type
+    when "deposit"
+      account.update!(balance: account.balance + amount)
+    when "withdrawal"
+      account.update!(balance: account.balance - amount)
+    when "transfer"
+      account.transaction do
+        account.update!(balance: account.balance - amount)
       end
-    rescue StandardError => e
-      errors.add(:base, e.message)
-      raise ActiveRecord::Rollback
+    end
+  end
+
+  def sufficient_funds
+    return unless amount
+    if account.balance < amount
+      errors.add(:base, "Insufficient funds for #{transaction_type}")
     end
   end
 
@@ -49,12 +43,19 @@ class Transaction < ApplicationRecord
   end
 
   def create_mirror_transfer
-    # Create the corresponding transaction record for the destination account
     destination_account.transactions.create!(
       amount: amount,
       transaction_type: "deposit",
       description: "Transfer from #{account.account_type.titleize} (#{account.account_number})",
-      status: status
+      status: status,
+      mirror_transfer: true
     )
+  rescue ActiveRecord::RecordInvalid => e
+    errors.add(:base, "Failed to create corresponding deposit: #{e.message}")
+    raise ActiveRecord::Rollback
+  end
+
+  def mirror_transfer?
+    mirror_transfer == true
   end
 end

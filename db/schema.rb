@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_24_142935) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_26_072355) do
   create_table "accounts", force: :cascade do |t|
     t.string "account_type"
     t.decimal "balance", precision: 10, scale: 2, default: "0.0"
@@ -31,6 +31,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_24_142935) do
     t.string "status", default: "completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "mirror_transfer"
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["destination_account_id"], name: "index_transactions_on_destination_account_id"
   end

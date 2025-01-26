@@ -7,6 +7,17 @@ class AccountsController < ApplicationController
   end
 
   def show
+    @account = Account.find(params[:id])
+    @transactions = @account.transactions.order(created_at: :desc)
+
+    case params[:filter]
+    when "deposits"
+      @transactions = @transactions.where(transaction_type: "deposit")
+    when "withdrawals"
+      @transactions = @transactions.where(transaction_type: "withdrawal")
+    when "transfers"
+      @transactions = @transactions.where(transaction_type: "transfer")
+    end
   end
 
   def new

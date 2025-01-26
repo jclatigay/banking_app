@@ -18,10 +18,25 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def index
+    @transactions = current_user.accounts.map(&:transactions).flatten.sort_by(&:created_at).reverse
+
+    @transactions = case params[:filter]
+    when "deposits"
+      @transactions.select { |t| t.transaction_type == "deposit" }
+    when "withdrawals"
+      @transactions.select { |t| t.transaction_type == "withdrawal" }
+    when "transfers"
+      @transactions.select { |t| t.transaction_type == "transfer" }
+    else
+      @transactions
+    end
+  end
+
   private
 
   def set_account
-    @account = current_user.accounts.find(params[:account_id])
+    @account = current_user.accounts.find_by(id: params[:account_id])
   end
 
   def transaction_params

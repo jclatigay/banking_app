@@ -25,5 +25,6 @@ Rails.application.routes.draw do
   end
 
   root "pages#index"
-  get "index", to: "pages#index"
+
+  get "transactions", to: "transactions#index", as: :all_transactions
 end

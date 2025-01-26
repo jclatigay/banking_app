@@ -75,24 +75,24 @@
         <div class="d-flex gap-2">
           <div class="dropdown">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-              <i class="fas fa-filter me-1"></i>Filter
+              <i class="fas fa-filter me-1"></i><%= params[:filter] ? params[:filter].titleize : 'Filter' %>
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">All Transactions</a></li>
-              <li><a class="dropdown-item" href="#">Deposits</a></li>
-              <li><a class="dropdown-item" href="#">Withdrawals</a></li>
-              <li><a class="dropdown-item" href="#">Transfers</a></li>
+              <li><%= link_to "All Transactions", account_path(@account), class: "dropdown-item #{params[:filter].nil? ? 'active' : ''}" %></li>
+              <li><%= link_to "Deposits", account_path(@account, filter: 'deposits'), class: "dropdown-item #{params[:filter] == 'deposits' ? 'active' : ''}" %></li>
+              <li><%= link_to "Withdrawals", account_path(@account, filter: 'withdrawals'), class: "dropdown-item #{params[:filter] == 'withdrawals' ? 'active' : ''}" %></li>
+              <li><%= link_to "Transfers", account_path(@account, filter: 'transfers'), class: "dropdown-item #{params[:filter] == 'transfers' ? 'active' : ''}" %></li>
             </ul>
           </div>
-          <%= link_to '#', class: 'btn btn-outline-primary' do %>
-            <i class="fas fa-download me-1"></i>Export
+          <%= link_to all_transactions_path, class: 'btn btn-primary' do %>
+            <i class="fas fa-list me-1"></i>View All
           <% end %>
         </div>
       </div>
 
       <!-- Transaction List -->
       <div class="transaction-list">
-        <% @account.transactions.order(created_at: :desc).each do |transaction| %>
+        <% @transactions.each do |transaction| %>
           <div class="transaction-item">
             <div class="transaction-icon <%= transaction.transaction_type == 'deposit' ? 'incoming' : 'outgoing' %>">
               <i class="fas <%= transaction_icon(transaction) %>"></i>

@@ -1,0 +1,67 @@
+<div class="transactions-page">
+  <div class="container">
+    <!-- Back Button -->
+    <div class="mb-4">
+      <%= link_to dashboard_path, class: "btn btn-link ps-0" do %>
+        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+      <% end %>
+    </div>
+
+    <!-- Transactions Section -->
+    <div class="transactions-section">
+      <div class="section-header d-flex justify-content-between align-items-center mb-4">
+        <h2>All Transactions</h2>
+        <div class="d-flex gap-2">
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary px-4 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fas fa-filter me-1"></i>Filter
+            </button>
+            <ul class="dropdown-menu">
+              <li><%= link_to "All Transactions", all_transactions_path, 
+                  class: "dropdown-item #{params[:filter].nil? ? 'active bg-dark text-white' : ''}" %></li>
+              <li><%= link_to "Deposits", all_transactions_path(filter: 'deposits'), 
+                  class: "dropdown-item #{params[:filter] == 'deposits' ? 'active bg-dark text-white' : ''}" %></li>
+              <li><%= link_to "Withdrawals", all_transactions_path(filter: 'withdrawals'), 
+                  class: "dropdown-item #{params[:filter] == 'withdrawals' ? 'active bg-dark text-white' : ''}" %></li>
+              <li><%= link_to "Transfers", all_transactions_path(filter: 'transfers'), 
+                  class: "dropdown-item #{params[:filter] == 'transfers' ? 'active bg-dark text-white' : ''}" %></li>
+            </ul>
+          </div>
+          <%= link_to '#', class: 'btn btn-primary px-4' do %>
+            <i class="fas fa-download me-1"></i>Export
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Transaction List -->
+      <div class="transaction-list">
+        <% if @transactions.any? %>
+          <% @transactions.each do |transaction| %>
+            <div class="transaction-item">
+              <div class="transaction-icon <%= transaction.transaction_type == 'deposit' ? 'incoming' : 'outgoing' %>">
+                <i class="fas <%= transaction_icon(transaction) %>"></i>
+              </div>
+              <div class="transaction-details">
+                <h4>
+                  <%= transaction.description %>
+                  <small class="text-muted">
+                    (<%= transaction.account.account_type.titleize %> - <%= transaction.account.account_number %>)
+                  </small>
+                </h4>
+                <span class="transaction-date"><%= transaction.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+              </div>
+              <div class="transaction-amount <%= transaction.transaction_type == 'deposit' ? 'positive' : 'negative' %>">
+                <%= transaction.transaction_type == 'deposit' ? '+' : '-' %>
+                $<%= number_with_precision(transaction.amount, precision: 2) %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-4 text-muted">
+            <p>No transactions found</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div> 
