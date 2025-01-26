@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_26_072355) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_26_142254) do
   create_table "accounts", force: :cascade do |t|
     t.string "account_type"
     t.decimal "balance", precision: 10, scale: 2, default: "0.0"
@@ -20,6 +20,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_26_072355) do
     t.datetime "updated_at", null: false
     t.index ["account_number"], name: "index_accounts_on_account_number", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "activity_logs", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "trackable_type"
+    t.integer "trackable_id"
+    t.string "action", null: false
+    t.string "description", null: false
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trackable_type", "trackable_id"], name: "index_activity_logs_on_trackable"
+    t.index ["user_id"], name: "index_activity_logs_on_user_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -52,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_26_072355) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "activity_logs", "users"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "accounts", column: "destination_account_id"
 end

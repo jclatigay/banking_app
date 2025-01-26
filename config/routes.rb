@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "histories/index"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -27,4 +28,6 @@ Rails.application.routes.draw do
   root "pages#index"
 
   get "transactions", to: "transactions#index", as: :all_transactions
+
+  resources :histories, only: [ :index ]
 end
